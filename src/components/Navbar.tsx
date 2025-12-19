@@ -41,7 +41,7 @@ const Navbar = () => {
 
     return (
         <div className="relative w-full flex items-center justify-center">
-            <div className="fixed top-10 inset-x-0 max-w-2xl mx-auto z-50 shadow shadow-primary">
+            <div className="fixed top-10 inset-x-0 max-w-2xl mx-auto z-50 shadow shadow-primary rounded-md">
                 <Menu setActive={() => {}}>
                     {navitems.map((item, index) => (
                         <NavItem key={index} title={item.title} icon={item.icon} href={item.href} />

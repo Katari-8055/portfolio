@@ -1,5 +1,9 @@
+"use client"
+
 import dayjs from "dayjs"
 import Experience from "../types/experience"
+import { motion } from "framer-motion"
+import { containerVariants, itemVariants } from "../lib/motion"
 
 const experiences: Experience[] = [
     {
@@ -13,13 +17,13 @@ const experiences: Experience[] = [
 
 const Experiences = () => {
     return (
-        <div className="flex flex-col w-full items-center my-4">
-            <div className="text-3xl font-bold">
+        <motion.div className="flex flex-col w-full items-center my-4" variants={containerVariants} initial="hidden" whileInView="visible">
+            <motion.div className="text-3xl font-bold" variants={itemVariants}>
                 Work Experience
-            </div>
-            <div className="w-2/3 my-4">
+            </motion.div>
+            <motion.div className="w-2/3 my-4" variants={containerVariants} initial="hidden" whileInView="visible">
                 {experiences.map((item, index) => (
-                    <div className="flex justify-between p-2 rounded-md" key={index}>
+                    <motion.div className="flex justify-between p-2 rounded-md" key={index} variants={itemVariants}>
                         <div className="flex gap-4 items-center">
                             {item.icon}
                             <div className="flex flex-col">
@@ -33,10 +37,10 @@ const Experiences = () => {
                                 : 'Present'
                             }
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     )
 }
 

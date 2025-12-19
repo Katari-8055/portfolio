@@ -1,21 +1,27 @@
+"use client";
+
 import { Button } from "./ui/button";
+import { motion } from "framer-motion";
+import { containerVariants, itemVariants } from "../lib/motion";
 
 const skills = ["TypeScript", "React", "Next.js", "Node.js", "Python", "PostgreSQL", "Competitive Programming"];
 
 const Skills = () => {
     return (
-        <div className="flex flex-col w-full items-center my-4">
-            <div className="text-3xl font-bold">
+        <motion.div className="flex flex-col w-full items-center my-4" variants={containerVariants} initial="hidden" whileInView="visible">
+            <motion.div className="text-3xl font-bold" variants={itemVariants}>
                 Skills
-            </div>
-            <div className="flex flex-wrap justify-center w-2/3 my-4">
+            </motion.div>
+            <motion.div className="flex flex-wrap justify-center w-2/3 my-4" variants={containerVariants} initial="hidden" whileInView="visible">
                 {skills.map((skill, index) => (
-                    <Button key={index} className="mx-1.5 my-1 p-2" size="xs">
-                        {skill}
-                    </Button>
+                    <motion.div key={index} variants={itemVariants}>
+                        <Button className="mx-1.5 my-1 p-2" size="xs">
+                            {skill}
+                        </Button>
+                    </motion.div>
                 ))}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     )
 }
 
