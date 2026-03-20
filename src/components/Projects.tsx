@@ -15,7 +15,7 @@ const Projects = () => {
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
     const filteredProjects = selectedCategory && selectedCategory !== "All"
-        ? projects.filter(project => project.category === selectedCategory)
+        ? projects.filter(project => project.category.includes(selectedCategory))
         : projects;
 
     console.log(filteredProjects);
