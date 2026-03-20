@@ -74,12 +74,12 @@ const POW = () => {
             {loading ? (
                 <div className="text-sm text-muted-foreground my-12">Loading...</div>
             ): (
-                <motion.div className="flex flex-col gap-6 w-2/3 items-center justify-center my-6" variants={containerVariants} initial="hidden" whileInView="visible">
+                <motion.div className="flex flex-col gap-6 sm:w-2/3 items-center justify-center my-6" variants={containerVariants} initial="hidden" whileInView="visible">
                     {Object.values(Orgs).map((org) => {
                         const orgPRs = prsForOrg(org);
                         const isExpanded = expandedOrg === org;
                         return (
-                            <motion.div key={org} className=" w-full rounded-md py-2 px-6 bg-card" variants={itemVariants}>
+                            <motion.div key={org} className="w-full rounded-md py-2 px-6 bg-card" variants={itemVariants}>
                                 <div className="flex items-center gap-4">
                                     <img src={`${ORG_LOGOS[org]}`} alt={`${ORG_LABELS[org]} logo`} className="w-16 h-16 rounded-md" />
                                     <div className="flex-1">
@@ -99,7 +99,7 @@ const POW = () => {
                                 {isExpanded && (
                                     <motion.div className="mt-4" variants={itemVariants} initial="hidden" animate="visible">
                                         {orgPRs.length === 0 && <div className="text-sm text-muted-foreground">No PRs for this org.</div>}
-                                        <div className="grid grid-cols-2 gap-3">
+                                        <div className="grid md:grid-cols-2 gap-3">
                                             {orgPRs.map((p: any) => (
                                                 <a key={p.id} href={p.html_url} target="_blank" rel="noreferrer" className="block p-3 border rounded-xl hover:shadow-lg border-zinc-300 transition-shadow">
                                                     <div className="flex justify-between items-start">

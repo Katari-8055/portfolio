@@ -12,7 +12,7 @@ const Skills = () => {
             <motion.div className="text-3xl font-bold" variants={itemVariants}>
                 Skills
             </motion.div>
-            <motion.div className="flex flex-wrap justify-center w-2/3 my-4" variants={containerVariants} initial="hidden" whileInView="visible">
+            <motion.div className="flex flex-wrap justify-center sm:w-2/3 my-4" variants={containerVariants} initial="hidden" whileInView="visible">
                 {skills.map((skill, index) => (
                     <motion.div key={index} variants={itemVariants}>
                         <Button className="mx-1.5 my-1 p-2" size="xs">

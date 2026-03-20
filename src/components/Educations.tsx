@@ -21,7 +21,7 @@ const Educations = () => {
             <motion.div className="text-3xl font-bold" variants={itemVariants}>
                 Education
             </motion.div>
-            <motion.div className="w-2/3 my-4" variants={containerVariants} initial="hidden" whileInView="visible">
+            <motion.div className="sm:w-2/3 my-4" variants={containerVariants} initial="hidden" whileInView="visible">
                 {education.map((item, index) => (
                     <motion.div className="flex justify-between p-2 rounded-md" key={index} variants={itemVariants}>
                         <div className="flex gap-4 items-center">

@@ -41,9 +41,10 @@ const Hero = () => {
                 )}
             />
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
-            <p className="relative z-20 bg-gradient-to-b from-primary to-gray-500 bg-clip-text py-8 text-4xl font-bold text-transparent sm:text-9xl">
-                I am Spandan Mishra
-            </p>
+            <div className="relative flex flex-col items-center justify-center gap-5 z-20 bg-gradient-to-b from-primary to-gray-500 bg-clip-text py-8 font-bold text-transparent">
+                <p className="text-2xl sm:text-7xl">Hello, I'm</p> 
+                <p className="text-4xl sm:text-9xl">Spandan Mishra</p>
+            </div>
         </div>
     );
 };

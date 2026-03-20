@@ -7,8 +7,9 @@ import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle }
 import { Button } from "./ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import { containerVariants, itemVariants } from "../lib/motion";
+import { ExternalLinkIcon } from "lucide-react";
 
-const categories = ["Full-Stack", "Web3", "Hackathons", "Experimenting", "Machine Learning"];
+const categories = ["Full-Stack", "AI", "Web3", "Hackathons", "Experimenting"];
 
 const Projects = () => {
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -16,6 +17,8 @@ const Projects = () => {
     const filteredProjects = selectedCategory && selectedCategory !== "All"
         ? projects.filter(project => project.category === selectedCategory)
         : projects;
+
+    console.log(filteredProjects);
 
     return (
         <motion.div
@@ -49,46 +52,44 @@ const Projects = () => {
                 </ToggleGroup>
             </motion.div>
             <div className="w-full flex items-center justify-center">
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={selectedCategory}
-                        variants={itemVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        exit={{ opacity: 0, y: -10, filter: "blur(5px)", transition: { duration: 0.2 } }}
-                        className="w-2/3 my-12 flex flex-col gap-6"
-                    >
-                        {filteredProjects.length !== 0 ?
-                            filteredProjects.map((project, index) => (
-                                <motion.div key={index} variants={itemVariants}>
-                                    <Card className="w-full hover:shadow-lg border-zinc-300 transition-shadow">
-                                        <CardHeader>
-                                            <CardTitle>{project.title}</CardTitle>
-                                            <CardDescription className="w-5/6">{project.description}</CardDescription>
-                                            <CardAction>
-                                                <a
-                                                    href={project.link}
-                                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                                >
-                                                    View Project
-                                                </a>
-                                            </CardAction>
-                                        </CardHeader>
-                                        <CardContent>
-                                            {project.technologies.map((tech, tIndex) => (
-                                                <Button variant="outline" size="xs" className="mr-2" key={tIndex}>{tech}</Button>
-                                            ))}
-                                        </CardContent>
-                                    </Card>
-                                </motion.div>
-                            ))
-                        :
-                        <motion.div variants={itemVariants} className="text-sm text-center text-secondary">
-                            No {selectedCategory !== "All" ? selectedCategory : null} projects made yet. Still learning this technology!
-                        </motion.div>
-                        }
+                <motion.div
+                    key={selectedCategory}
+                    variants={itemVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    exit={{ opacity: 0, y: -10, filter: "blur(5px)", transition: { duration: 0.2 } }}
+                    className="w-2/3 my-12 flex flex-col gap-6"
+                >
+                    {filteredProjects.length !== 0 ?
+                        filteredProjects.map((project, index) => (
+                            <motion.div key={index} variants={itemVariants}>
+                                <Card className="w-full hover:shadow-lg border-zinc-300 transition-shadow">
+                                    <CardHeader>
+                                        <CardTitle>{project.title}</CardTitle>
+                                        <CardDescription className="sm:w-5/6">{project.description}</CardDescription>
+                                        <CardAction>
+                                            <a
+                                                href={project.link}
+                                                className="ml-auto hover:cursor-pointer"
+                                            >
+                                                <ExternalLinkIcon size={16} />
+                                            </a>
+                                        </CardAction>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {project.technologies.map((tech, tIndex) => (
+                                            <Button variant="outline" size="xs" className="mr-2" key={tIndex}>{tech}</Button>
+                                        ))}
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        ))
+                    :
+                    <motion.div variants={itemVariants} className="text-sm text-center text-secondary">
+                        No {selectedCategory !== "All" ? selectedCategory : null} projects made yet. Still learning this technology!
                     </motion.div>
-                </AnimatePresence>
+                    }
+                </motion.div>
             </div>
         </motion.div>
     )
