@@ -23,17 +23,17 @@ const navitems = [
     {
         title: "Github",
         icon: <GitHubLogoIcon />,
-        href: "https://github.com/Spandan-Mishra"
+        href: "https://github.com/katari-8055"
     },
     {
         title: "LinkedIn",
         icon: <LinkedInLogoIcon />,
-        href: "https://www.linkedin.com/in/spandan-mishra-a584b7302/"
+        href: "https://www.linkedin.com/in/link-katari"
     },
     {
         title: "X",
         icon: <TwitterLogoIcon />,
-        href: "https://twitter.com/intent/follow?screen_name=spandev_"
+        href: "https://twitter.com/bind_rahul78277"
     }
 ]
 

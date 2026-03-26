@@ -9,8 +9,8 @@ const inconsolata = Inconsolata({
 });
 
 export const metadata: Metadata = {
-  title: "Spandan Mishra",
-  description: "Spandan Mishra's Portfolio Website",
+  title: "Rahul Bind",
+  description: "Rahul Bind's Portfolio Website",
 };
 
 export default function RootLayout({
