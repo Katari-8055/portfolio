@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { containerVariants, itemVariants } from "../lib/motion";
 import { ExternalLinkIcon } from "lucide-react";
 
-const categories = ["Full-Stack", "AI", "Web3", "Hackathons", "Experimenting"];
+const categories = ["Full-Stack", "SaaS", "AI", "Experimenting"];
 
 const Projects = () => {
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -84,10 +84,10 @@ const Projects = () => {
                                 </Card>
                             </motion.div>
                         ))
-                    :
-                    <motion.div variants={itemVariants} className="text-sm text-center text-secondary">
-                        No {selectedCategory !== "All" ? selectedCategory : null} projects made yet. Still learning this technology!
-                    </motion.div>
+                        :
+                        <motion.div variants={itemVariants} className="text-sm text-center text-secondary">
+                            No {selectedCategory !== "All" ? selectedCategory : null} projects made yet. Still learning this technology!
+                        </motion.div>
                     }
                 </motion.div>
             </div>
