@@ -4,4 +4,7 @@ export default interface Project {
     category: string[];
     technologies: string[];
     link: string;
+    highlights?: string[];
+    metrics?: string;
+    featured?: boolean;
 }

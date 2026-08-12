@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 
 
 const inconsolata = Inconsolata({
+  subsets: ["latin"],
   weight: ["400", "700", "900"]
 });
 

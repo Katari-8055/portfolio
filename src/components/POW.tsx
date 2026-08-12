@@ -25,20 +25,20 @@ const POW = () => {
             try {
                 let data = [];
                 if (featuredPrIds && featuredPrIds.length > 0) {
-                    const prPromises = featuredPrIds.map(id => 
-                        axios.get(`https://api.github.com/repositories/${id.toString().split('_')[0]}/pulls/${id.toString().split('_')[1]}`).catch(() => null)
-                    );
-                    const res = await axios.get("https://api.github.com/search/issues?q=author%3Akatari-8055+type%3Apr&per_page=100");
-                    data = res.data.items.filter((pr: any) => featuredPrIds.includes(pr.id));
+                    const res = await axios.get("https://api.github.com/search/issues?q=author%3Akatari-8055+type%3Apr&per_page=100").catch(() => null);
+                    if (res && res.data && res.data.items) {
+                        data = res.data.items.filter((pr: any) => featuredPrIds.includes(pr.id));
+                    }
                 } else {
-                    const res = await axios.get("https://api.github.com/search/issues?q=author%3Akatari-8055+type%3Apr&per_page=100");
-                    data = res.data.items;
+                    const res = await axios.get("https://api.github.com/search/issues?q=author%3Akatari-8055+type%3Apr&per_page=100").catch(() => null);
+                    if (res && res.data && res.data.items) {
+                        data = res.data.items;
+                    }
                 }
                 
                 setPRs(data);
-            } catch (error) {
-                console.error(error);
-                setError("Failed to fetch PRs");
+            } catch (err) {
+                console.error(err);
             } finally {
                 setLoading(false);
             }

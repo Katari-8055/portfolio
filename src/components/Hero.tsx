@@ -1,11 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
-import { useEffect, useRef, useState } from "react";
-
-gsap.registerPlugin(SplitText);
+import { useEffect, useState } from "react";
 
 const Hero = () => {
     const [displayText, setDisplayText] = useState("");
