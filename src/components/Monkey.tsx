@@ -91,7 +91,7 @@ export default function Monkey() {
   const tan = "#efc9a0";
 
   return (
-    <div className="pointer-events-none absolute top-[calc(100%-7px)] left-14 z-10 sm:left-20">
+    <div className="pointer-events-none absolute top-[calc(100%-7px)] left-14 z-10 origin-top max-sm:scale-[0.8] sm:left-20">
       <svg
         ref={svgRef}
         width="54"

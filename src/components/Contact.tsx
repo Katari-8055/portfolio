@@ -58,7 +58,7 @@ function HireRequest() {
   };
 
   const field =
-    "rounded-md bg-transparent px-1 text-amber-600 outline-none placeholder:text-muted/50 focus:bg-accent-soft dark:text-amber-200 focus-visible:outline-none";
+    "rounded-md bg-transparent px-1 max-sm:text-base text-amber-600 outline-none placeholder:text-muted/50 focus:bg-accent-soft dark:text-amber-200 focus-visible:outline-none";
 
   return (
     <SpotlightCard className="overflow-hidden font-mono text-[13px]">

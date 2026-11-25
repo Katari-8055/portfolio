@@ -200,7 +200,7 @@ export default function OpenSource() {
                     aria-selected={filter === f}
                     onClick={() => setFilter(f)}
                     className={cn(
-                      "rounded-lg px-3 py-1 text-sm transition-colors",
+                      "rounded-lg px-3 py-1 text-sm transition-colors max-sm:py-2",
                       filter === f ? "bg-subtle text-fg" : "text-muted hover:text-fg",
                     )}
                   >
@@ -212,7 +212,7 @@ export default function OpenSource() {
                 type="button"
                 onClick={() => load(true)}
                 aria-label="Refresh from GitHub"
-                className="grid size-8 place-items-center rounded-lg text-muted hover:bg-subtle hover:text-fg"
+                className="grid size-8 place-items-center rounded-lg text-muted hover:bg-subtle hover:text-fg max-sm:size-10"
               >
                 <RefreshCw className={cn("size-3.5", prs === null && "animate-spin")} />
               </button>

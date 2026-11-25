@@ -40,9 +40,19 @@ export default function Navbar() {
   const active = useActiveSection();
   const [scrolled, setScrolled] = useState(false);
   const [isMac, setIsMac] = useState(false);
+  // phones only: tuck the bar (and the monkey) away while scrolling down, bring it back on scroll up
+  const [tucked, setTucked] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      if (window.innerWidth >= 640 || y < 160) setTucked(false);
+      else if (y > lastY + 6) setTucked(true);
+      else if (y < lastY - 6) setTucked(false);
+      lastY = y;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     setIsMac(/Mac|iPhone|iPad/.test(navigator.platform));
@@ -50,7 +60,12 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-3 z-50 flex justify-center px-3 sm:top-5">
+    <header
+      className={cn(
+        "pointer-events-none fixed inset-x-0 top-3 z-50 flex justify-center px-3 transition-transform duration-300 ease-out sm:top-5",
+        tucked && "-translate-y-[11rem]",
+      )}
+    >
       <nav
         aria-label="Primary"
         className={cn(

@@ -35,7 +35,7 @@ export default function Skills() {
                       onClick={() => setActive(isActive ? null : s)}
                       aria-pressed={isActive}
                       className={cn(
-                        "relative rounded-lg border px-3 py-1.5 text-sm transition-colors",
+                        "relative rounded-lg border px-3 py-1.5 text-sm transition-colors max-sm:py-2",
                         isActive
                           ? "border-accent bg-accent text-accent-contrast"
                           : "border-border bg-card text-fg/85 hover:border-accent/50",

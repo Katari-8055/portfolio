@@ -87,7 +87,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
             {/* right: numbers + architecture */}
             <div className="flex flex-col gap-4">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 {project.metrics.map((metric, mi) => (
                   <m.div
                     key={metric.label}
@@ -95,10 +95,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.15 + mi * 0.1 }}
-                    className="rounded-xl border border-border bg-bg/40 px-4 py-3"
+                    className="rounded-xl border border-border bg-bg/40 px-4 py-3 max-sm:px-2.5 max-sm:py-2.5"
                   >
-                    <div className="font-mono text-xl font-semibold text-accent">{metric.value}</div>
-                    <div className="mt-0.5 text-xs text-muted">{metric.label}</div>
+                    <div className="font-mono text-xl font-semibold text-accent max-sm:text-base">{metric.value}</div>
+                    <div className="mt-0.5 text-xs text-muted max-sm:text-[10px] max-sm:leading-tight">{metric.label}</div>
                   </m.div>
                 ))}
               </div>

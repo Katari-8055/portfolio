@@ -4,6 +4,7 @@ import { m, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import type { FlowNode } from "../data/resume";
 import { cn } from "../lib/utils";
+import { useMediaQuery } from "../lib/useMediaQuery";
 
 /**
  * A request's path through the system, drawn as a vertical pipeline.
@@ -16,6 +17,17 @@ export default function ArchitectureFlow({ nodes }: { nodes: FlowNode[] }) {
   const [step, setStep] = useState(0);
   const [hover, setHover] = useState<number | null>(null);
   const active = hover ?? step;
+  // touch screens never fire "mouse leave", so taps pin a step briefly instead of freezing it
+  const canHover = useMediaQuery("(hover: hover)", true);
+  const pinTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pin = (i: number) => {
+    setHover(i);
+    if (pinTimer.current) clearTimeout(pinTimer.current);
+    pinTimer.current = setTimeout(() => setHover(null), 3500);
+  };
+  useEffect(() => () => {
+    if (pinTimer.current) clearTimeout(pinTimer.current);
+  }, []);
 
   useEffect(() => {
     if (!inView || hover !== null) return;
@@ -37,7 +49,7 @@ export default function ArchitectureFlow({ nodes }: { nodes: FlowNode[] }) {
         </span>
       </div>
 
-      <ol onMouseLeave={() => setHover(null)}>
+      <ol onMouseLeave={canHover ? () => setHover(null) : undefined}>
         {nodes.map((n, i) => {
           const isActive = active === i;
           const passed = i < active;
@@ -71,9 +83,10 @@ export default function ArchitectureFlow({ nodes }: { nodes: FlowNode[] }) {
               {/* label + note */}
               <button
                 type="button"
-                onMouseEnter={() => setHover(i)}
-                onFocus={() => setHover(i)}
-                onBlur={() => setHover(null)}
+                onMouseEnter={canHover ? () => setHover(i) : undefined}
+                onFocus={canHover ? () => setHover(i) : undefined}
+                onBlur={canHover ? () => setHover(null) : undefined}
+                onClick={canHover ? undefined : () => pin(i)}
                 className={cn(
                   "mb-2 flex-1 rounded-lg px-3 py-1.5 text-left transition-colors duration-300",
                   isActive ? "bg-accent-soft" : "hover:bg-subtle",

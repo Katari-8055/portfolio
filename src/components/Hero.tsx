@@ -5,6 +5,7 @@ import { ArrowDown, Check, Copy, FileText } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { profile } from "../data/resume";
 import { scrollToId } from "../lib/theme";
+import { MOBILE_QUERY, useMediaQuery } from "../lib/useMediaQuery";
 import Terminal from "./Terminal";
 import { Magnetic } from "./ui";
 
@@ -40,10 +41,12 @@ export default function Hero() {
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const termY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-  const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
+  // phones: keep the hero static while scrolling (desktop keeps the parallax fade)
+  const mobile = useMediaQuery(MOBILE_QUERY);
+  const textY = useTransform(scrollYProgress, (v) => (mobile ? 0 : v * 140));
+  const termY = useTransform(scrollYProgress, (v) => (mobile ? 0 : v * 60));
+  const fade = useTransform(scrollYProgress, (v) => (mobile ? 1 : Math.max(0, 1 - v / 0.7)));
+  const scale = useTransform(scrollYProgress, (v) => (mobile ? 1 : 1 - v * 0.06));
 
   const copyEmail = async () => {
     try {
@@ -56,7 +59,7 @@ export default function Hero() {
   };
 
   return (
-    <section ref={ref} id="top" className="relative flex min-h-[100svh] items-center pt-28 pb-20">
+    <section ref={ref} id="top" className="relative flex min-h-[100svh] items-center pt-40 pb-14 sm:pt-28 sm:pb-20">
       <div
         aria-hidden
         className="absolute top-0 left-1/2 -z-10 size-[56rem] -translate-x-1/2 bg-[radial-gradient(closest-side,var(--accent-soft),transparent)] opacity-60"

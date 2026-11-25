@@ -202,7 +202,7 @@ export default function CommandPalette() {
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={onInputKey}
                   placeholder="Type a command or search…"
-                  className="h-12 flex-1 bg-transparent text-sm outline-none placeholder:text-muted focus-visible:outline-none"
+                  className="h-12 flex-1 bg-transparent text-sm outline-none max-sm:text-base placeholder:text-muted focus-visible:outline-none"
                   aria-controls="palette-list"
                   aria-activedescendant={filtered[index] ? `cmd-${filtered[index].id}` : undefined}
                 />

@@ -102,7 +102,7 @@ export default function Experience() {
                         href={job.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="ml-auto inline-flex items-center gap-1 text-xs text-muted hover:text-accent"
+                        className="ml-auto inline-flex items-center gap-1 text-xs text-muted hover:text-accent max-sm:py-2"
                       >
                         repository <ArrowUpRight className="size-3.5" />
                       </a>

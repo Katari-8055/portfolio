@@ -271,7 +271,7 @@ export default function Terminal() {
           {/* body */}
           <div
             ref={bodyRef}
-            className="h-72 overflow-y-auto px-4 py-3 font-mono text-[12.5px] leading-relaxed sm:h-80"
+            className="h-48 overflow-y-auto px-4 py-3 font-mono text-[12.5px] leading-relaxed sm:h-80"
             aria-live="polite"
           >
             {lines.map((l, i) => (
@@ -305,7 +305,7 @@ export default function Terminal() {
                   <span className="text-accent">➜ </span>
                   <span className="text-sky-600 dark:text-sky-300">~&nbsp;</span>
                 </label>
-                <div className="relative flex-1">
+                <div className="relative flex-1 max-sm:text-base">
                   {suggestion && (
                     <span aria-hidden className="pointer-events-none absolute inset-0 text-muted/40">
                       {input}
@@ -341,7 +341,7 @@ export default function Terminal() {
                   e.stopPropagation();
                   exec(c);
                 }}
-                className="shrink-0 rounded-md border border-border bg-subtle/60 px-2 py-1 font-mono text-[11px] text-muted transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40"
+                className="shrink-0 rounded-md border border-border bg-subtle/60 px-2 py-1 font-mono text-[11px] max-sm:px-3 max-sm:py-2 max-sm:text-xs text-muted transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-40"
               >
                 {c}
               </button>
