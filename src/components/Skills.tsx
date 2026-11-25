@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
 import { skills, usagesOf } from "../data/resume";
 import { cn } from "../lib/utils";
@@ -28,7 +28,7 @@ export default function Skills() {
                   const isActive = active === s;
                   const hasUsage = usagesOf(s).length > 0;
                   return (
-                    <motion.button
+                    <m.button
                       key={s}
                       type="button"
                       whileTap={{ scale: 0.95 }}
@@ -45,7 +45,7 @@ export default function Skills() {
                       {hasUsage && !isActive && (
                         <span className="absolute -top-0.5 -right-0.5 size-1.5 rounded-full bg-accent" />
                       )}
-                    </motion.button>
+                    </m.button>
                   );
                 })}
               </div>
@@ -56,7 +56,7 @@ export default function Skills() {
 
       <div className="mt-8 min-h-14 rounded-xl border border-dashed border-border px-4 py-3 font-mono text-sm" aria-live="polite">
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={active ?? "none"}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export default function Skills() {
                 <span className="text-muted">→ coursework, competitive programming & side projects</span>
               </>
             )}
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
     </Section>

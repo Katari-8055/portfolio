@@ -15,7 +15,14 @@ export default function About() {
             <div className="flex items-center gap-4">
               <div className="grid size-14 shrink-0 place-items-center rounded-xl bg-white p-1.5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={education.logo} alt="NIT Rourkela logo" width={44} height={44} />
+                <img
+                  src={education.logo}
+                  alt="NIT Rourkela logo"
+                  width={44}
+                  height={44}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div>
                 <h3 className="leading-snug font-semibold">{education.institution}</h3>

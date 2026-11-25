@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useSpring } from "framer-motion";
+import { m, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "../lib/utils";
 
@@ -21,7 +21,7 @@ export function Section({
 }) {
   return (
     <section id={id} className="py-20 sm:py-28">
-      <motion.header
+      <m.header
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
@@ -35,7 +35,7 @@ export function Section({
           <WordReveal text={title} />
         </h2>
         {description && <p className="mt-4 max-w-2xl text-pretty text-muted">{description}</p>}
-      </motion.header>
+      </m.header>
       {children}
     </section>
   );
@@ -44,7 +44,7 @@ export function Section({
 /** Heading whose words rise in one after another. */
 export function WordReveal({ text }: { text: string }) {
   return (
-    <motion.span
+    <m.span
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-60px" }}
@@ -53,7 +53,7 @@ export function WordReveal({ text }: { text: string }) {
     >
       {text.split(" ").map((word, i) => (
         <span key={i} className="inline-block overflow-hidden pb-1 align-bottom">
-          <motion.span
+          <m.span
             className="inline-block"
             variants={{
               hidden: { y: "110%", opacity: 0 },
@@ -62,10 +62,10 @@ export function WordReveal({ text }: { text: string }) {
           >
             {word}
             {i < text.split(" ").length - 1 && " "}
-          </motion.span>
+          </m.span>
         </span>
       ))}
-    </motion.span>
+    </m.span>
   );
 }
 
@@ -75,7 +75,7 @@ export function Magnetic({ children, strength = 0.3 }: { children: React.ReactNo
   const x = useSpring(0, { stiffness: 250, damping: 18, mass: 0.4 });
   const y = useSpring(0, { stiffness: 250, damping: 18, mass: 0.4 });
   return (
-    <motion.div
+    <m.div
       ref={ref}
       style={{ x, y }}
       className="inline-block"
@@ -91,7 +91,7 @@ export function Magnetic({ children, strength = 0.3 }: { children: React.ReactNo
       }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -105,7 +105,7 @@ export function Reveal({
   className?: string;
 }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
@@ -113,7 +113,7 @@ export function Reveal({
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 

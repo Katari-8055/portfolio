@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { m, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { experience, profile, projects, skills } from "../data/resume";
 import { scrollToId } from "../lib/theme";
@@ -226,7 +226,7 @@ export default function Terminal() {
 
   return (
     <div style={{ perspective: 1200 }}>
-      <motion.div
+      <m.div
         ref={cardRef}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         onMouseMove={(e) => {
@@ -242,7 +242,7 @@ export default function Terminal() {
         className="group relative rounded-2xl p-px"
       >
         {/* glowing gradient border that follows the cursor */}
-        <motion.div
+        <m.div
           aria-hidden
           className="pointer-events-none absolute inset-0 rounded-2xl opacity-70 transition-opacity duration-300 group-hover:opacity-100"
           style={{ background: borderBg }}
@@ -253,7 +253,7 @@ export default function Terminal() {
         />
 
         <div
-          className="relative overflow-hidden rounded-2xl bg-card/90 shadow-2xl shadow-black/20 backdrop-blur-xl"
+          className="relative overflow-hidden rounded-2xl bg-card shadow-2xl shadow-black/20"
           onClick={() => ready && inputRef.current?.focus({ preventScroll: true })}
         >
           {/* title bar */}
@@ -275,7 +275,7 @@ export default function Terminal() {
             aria-live="polite"
           >
             {lines.map((l, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 initial={{ opacity: 0, x: -4 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -297,7 +297,7 @@ export default function Terminal() {
                   </span>
                 )}
                 {l.kind === "json" ? <Json text={l.text} /> : l.text}
-              </motion.div>
+              </m.div>
             ))}
             {ready && (
               <form onSubmit={submit} className="relative mt-1 flex items-center text-fg">
@@ -360,7 +360,7 @@ export default function Terminal() {
             </span>
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

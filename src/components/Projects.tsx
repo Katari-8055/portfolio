@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, Github } from "lucide-react";
 import { useRef } from "react";
 import { projects, type Project } from "../data/resume";
@@ -18,16 +18,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
   return (
     <div ref={ref} className="relative" style={{ perspective: 1400 }}>
-      <motion.div style={{ scale, rotateX, opacity, transformOrigin: "center top" }}>
+      <m.div style={{ scale, rotateX, opacity, transformOrigin: "center top" }}>
         <SpotlightCard as="article" className="relative overflow-hidden p-5 sm:p-8">
           {/* big index number */}
-          <motion.span
+          <m.span
             aria-hidden
             style={{ y: numberY }}
             className="pointer-events-none absolute -top-4 right-4 font-mono text-[7rem] leading-none font-bold text-fg/[0.04] select-none sm:text-[10rem]"
           >
             {String(index + 1).padStart(2, "0")}
-          </motion.span>
+          </m.span>
 
           <div className="relative grid gap-8 lg:grid-cols-[1fr_1.15fr]">
             {/* left: story */}
@@ -42,7 +42,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
               <ul className="mt-5 space-y-2.5 text-sm text-fg/85">
                 {project.highlights.map((h, hi) => (
-                  <motion.li
+                  <m.li
                     key={h}
                     initial={{ opacity: 0, x: -12 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -52,7 +52,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   >
                     <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
                     <span className="text-pretty">{h}</span>
-                  </motion.li>
+                  </m.li>
                 ))}
               </ul>
 
@@ -88,25 +88,25 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             {/* right: numbers + architecture */}
             <div className="flex flex-col gap-4">
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                {project.metrics.map((m, mi) => (
-                  <motion.div
-                    key={m.label}
+                {project.metrics.map((metric, mi) => (
+                  <m.div
+                    key={metric.label}
                     initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.15 + mi * 0.1 }}
                     className="rounded-xl border border-border bg-bg/40 px-4 py-3"
                   >
-                    <div className="font-mono text-xl font-semibold text-accent">{m.value}</div>
-                    <div className="mt-0.5 text-xs text-muted">{m.label}</div>
-                  </motion.div>
+                    <div className="font-mono text-xl font-semibold text-accent">{metric.value}</div>
+                    <div className="mt-0.5 text-xs text-muted">{metric.label}</div>
+                  </m.div>
                 ))}
               </div>
               <ArchitectureFlow nodes={project.flow} />
             </div>
           </div>
         </SpotlightCard>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

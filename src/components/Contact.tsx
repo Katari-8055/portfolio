@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { ArrowUpRight, Check, Copy, FileText, Github, Linkedin, Loader2, Send, Twitter } from "lucide-react";
 import { useEffect, useState } from "react";
 import { profile } from "../data/resume";
@@ -141,7 +141,7 @@ function HireRequest() {
         {/* response */}
         <AnimatePresence mode="wait">
           {(phase === "done" || phase === "invalid") && (
-            <motion.div
+            <m.div
               key={phase}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
@@ -178,7 +178,7 @@ function HireRequest() {
                   </>
                 )}
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </form>

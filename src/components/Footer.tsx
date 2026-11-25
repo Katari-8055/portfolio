@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { useRef } from "react";
 import { profile } from "../data/resume";
@@ -30,7 +30,7 @@ export default function Footer() {
               Built with Next.js, Tailwind and Framer Motion.
             </p>
           </div>
-          <motion.button
+          <m.button
             type="button"
             onClick={() => scrollToId("top")}
             whileHover={{ y: -4 }}
@@ -39,7 +39,7 @@ export default function Footer() {
           >
             Back to top
             <ArrowUp className="size-4 transition-transform group-hover:-translate-y-0.5" />
-          </motion.button>
+          </m.button>
         </div>
       </div>
 

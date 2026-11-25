@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useSpring } from "framer-motion";
+import { m, useScroll, useSpring } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { experience } from "../data/resume";
@@ -22,14 +22,14 @@ export default function Experience() {
       <ol ref={listRef} className="relative space-y-8 pl-8 sm:pl-12">
         {/* timeline track + scroll-driven fill */}
         <span aria-hidden className="absolute top-2 bottom-2 left-[7px] w-px bg-border sm:left-[11px]" />
-        <motion.span
+        <m.span
           aria-hidden
           style={{ scaleY: fill }}
           className="absolute top-2 bottom-2 left-[7px] w-px origin-top bg-accent shadow-[0_0_6px_var(--accent-glow)] sm:left-[11px]"
         />
 
         {experience.map((job, i) => (
-          <motion.li
+          <m.li
             key={job.company}
             className="relative"
             initial={{ opacity: 0, x: 40 }}
@@ -41,7 +41,7 @@ export default function Experience() {
               aria-hidden
               className="absolute top-7 -left-[31px] grid size-3.5 place-items-center rounded-full border-2 border-accent bg-bg sm:-left-[43px]"
             >
-              <motion.span
+              <m.span
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ margin: "-40% 0px -40% 0px" }}
@@ -60,18 +60,18 @@ export default function Experience() {
                   <p className="text-sm text-accent">{job.role}</p>
                   <p className="mt-3 text-sm text-muted">{job.summary}</p>
                   <div className="mt-5 grid grid-cols-2 gap-2">
-                    {job.metrics.map((m, mi) => (
-                      <motion.div
-                        key={m.label}
+                    {job.metrics.map((metric, mi) => (
+                      <m.div
+                        key={metric.label}
                         initial={{ opacity: 0, y: 12 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 + mi * 0.1 }}
                         className={`rounded-xl bg-subtle px-3 py-2.5 ${mi === 2 ? "col-span-2" : ""}`}
                       >
-                        <div className="font-mono text-lg font-semibold text-accent">{m.value}</div>
-                        <div className="text-[11px] leading-tight text-muted">{m.label}</div>
-                      </motion.div>
+                        <div className="font-mono text-lg font-semibold text-accent">{metric.value}</div>
+                        <div className="text-[11px] leading-tight text-muted">{metric.label}</div>
+                      </m.div>
                     ))}
                   </div>
                 </div>
@@ -80,7 +80,7 @@ export default function Experience() {
                 <div className="flex flex-col">
                   <ul className="space-y-3 text-sm text-fg/85">
                     {job.bullets.map((b, bi) => (
-                      <motion.li
+                      <m.li
                         key={b}
                         initial={{ opacity: 0, x: 16 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -90,7 +90,7 @@ export default function Experience() {
                       >
                         <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
                         <span className="text-pretty">{b}</span>
-                      </motion.li>
+                      </m.li>
                     ))}
                   </ul>
                   <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-5">
@@ -111,7 +111,7 @@ export default function Experience() {
                 </div>
               </div>
             </SpotlightCard>
-          </motion.li>
+          </m.li>
         ))}
       </ol>
     </Section>

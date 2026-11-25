@@ -128,3 +128,18 @@ body {
 .name-reveal {
   transition: --fr 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* Hero entrance — pure CSS so it runs before hydration */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes letter {
+  from { opacity: 0; transform: translateY(0.4em) rotateX(-70deg); }
+  to { opacity: 1; transform: none; }
+}
+.rise { animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) both; }
+.letter { animation: letter 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) both; }
+@media (prefers-reduced-motion: reduce) {
+  .rise, .letter { animation: none; }
+}

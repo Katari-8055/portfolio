@@ -100,18 +100,24 @@ export default function PageSnake() {
       }
     };
 
+    // the loop only runs while the head is catching up, then goes idle
     const loop = () => {
       current += (target - current) * 0.12;
       if (Math.abs(target - current) < 0.5) current = target;
       render();
-      raf = requestAnimationFrame(loop);
+      raf = current === target ? 0 : requestAnimationFrame(loop);
+    };
+    const kick = () => {
+      if (!raf && !reduce) raf = requestAnimationFrame(loop);
     };
 
-    const onScroll = () => update();
+    const onScroll = () => {
+      update();
+      kick();
+    };
     const ro = new ResizeObserver(() => build());
     ro.observe(wrap);
     build();
-    if (!reduce) raf = requestAnimationFrame(loop);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {

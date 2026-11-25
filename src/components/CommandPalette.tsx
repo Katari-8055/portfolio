@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import {
   ArrowRight,
   Copy,
@@ -177,14 +177,14 @@ export default function CommandPalette() {
     <>
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             className="fixed inset-0 z-[70] flex items-start justify-center bg-black/40 px-4 pt-[14vh] backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onMouseDown={(e) => e.target === e.currentTarget && close()}
           >
-            <motion.div
+            <m.div
               role="dialog"
               aria-modal="true"
               aria-label="Command palette"
@@ -250,14 +250,14 @@ export default function CommandPalette() {
                 <span>↵ select</span>
                 <span className="ml-auto">rahul.bind</span>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       <AnimatePresence>
         {toast && (
-          <motion.div
+          <m.div
             role="status"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -265,7 +265,7 @@ export default function CommandPalette() {
             className="fixed bottom-6 left-1/2 z-[80] -translate-x-1/2 rounded-full border border-border bg-card px-4 py-2 text-sm shadow-lg"
           >
             {toast}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

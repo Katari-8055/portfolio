@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { sections } from "../data/resume";
@@ -54,8 +54,8 @@ export default function Navbar() {
       <nav
         aria-label="Primary"
         className={cn(
-          "pointer-events-auto relative flex w-full max-w-3xl items-center gap-1 rounded-full border border-border px-2 py-1.5 backdrop-blur-xl transition-all duration-300",
-          scrolled ? "bg-bg/80 shadow-lg shadow-black/10" : "bg-bg/40",
+          "pointer-events-auto relative flex w-full max-w-3xl items-center gap-1 rounded-full border border-border px-2 py-1.5 transition-[background-color,box-shadow] duration-300",
+          scrolled ? "bg-bg/95 shadow-lg shadow-black/20" : "bg-bg/70",
         )}
       >
         <Monkey />
@@ -90,7 +90,7 @@ export default function Navbar() {
                 )}
               >
                 {active === s.id && (
-                  <motion.span
+                  <m.span
                     layoutId="nav-pill"
                     className="absolute inset-0 -z-10 rounded-full bg-subtle"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}

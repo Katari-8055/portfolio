@@ -46,7 +46,8 @@ export default function WebBackground() {
     };
 
     const seed = () => {
-      const count = Math.min(130, Math.max(36, Math.floor((w * h) / 12500)));
+      // fewer nodes on small screens; the O(n²) link pass dominates the cost
+      const count = Math.min(90, Math.max(28, Math.floor((w * h) / (w < 768 ? 16000 : 14000))));
       pts = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -58,7 +59,7 @@ export default function WebBackground() {
 
     const resize = () => {
       const prevW = w;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       w = window.innerWidth;
       h = window.innerHeight;
       canvas.width = w * dpr;
@@ -151,8 +152,14 @@ export default function WebBackground() {
       }
     };
 
-    const loop = () => {
-      draw();
+    // phones draw at ~30fps — the drift is slow enough that it looks the same
+    const frameGap = window.innerWidth < 768 ? 32 : 0;
+    let lastFrame = 0;
+    const loop = (now = 0) => {
+      if (now - lastFrame >= frameGap) {
+        lastFrame = now;
+        draw();
+      }
       raf = requestAnimationFrame(loop);
     };
 

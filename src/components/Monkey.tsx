@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 const LINES = [
@@ -21,7 +21,7 @@ const LINES = [
 export default function Monkey() {
   const swingRef = useRef<SVGGElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
-  const [pupil, setPupil] = useState({ x: 0, y: 0 });
+  const pupilsRef = useRef<SVGGElement>(null);
   const [say, setSay] = useState<string | null>(null);
   const kick = useRef(0);
   const lineIdx = useRef(0);
@@ -66,8 +66,9 @@ export default function Monkey() {
       const dx = e.clientX - cx;
       const dy = e.clientY - cy;
       const d = Math.hypot(dx, dy) || 1;
-      const m = Math.min(1.3, d / 60);
-      setPupil({ x: (dx / d) * m, y: (dy / d) * m });
+      const reach = Math.min(1.3, d / 60);
+      // move pupils directly — no React re-render on every mouse move
+      pupilsRef.current?.setAttribute("transform", `translate(${((dx / d) * reach).toFixed(2)} ${((dy / d) * reach).toFixed(2)})`);
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
@@ -145,10 +146,12 @@ export default function Monkey() {
           {/* eyes */}
           <circle cx="25.5" cy="42" r="2.9" fill="#fff" />
           <circle cx="34.5" cy="42" r="2.9" fill="#fff" />
-          <circle cx={25.5 + pupil.x} cy={42 + pupil.y} r="1.7" fill="#1a1a1a" />
-          <circle cx={34.5 + pupil.x} cy={42 + pupil.y} r="1.7" fill="#1a1a1a" />
-          <circle cx={25 + pupil.x} cy={41.4 + pupil.y} r="0.5" fill="#fff" />
-          <circle cx={34 + pupil.x} cy={41.4 + pupil.y} r="0.5" fill="#fff" />
+          <g ref={pupilsRef}>
+            <circle cx="25.5" cy="42" r="1.7" fill="#1a1a1a" />
+            <circle cx="34.5" cy="42" r="1.7" fill="#1a1a1a" />
+            <circle cx="25" cy="41.4" r="0.5" fill="#fff" />
+            <circle cx="34" cy="41.4" r="0.5" fill="#fff" />
+          </g>
 
           {/* nose + smile + cheeks */}
           <circle cx="28.6" cy="48.5" r="0.8" fill={dark} />
@@ -161,7 +164,7 @@ export default function Monkey() {
 
       <AnimatePresence>
         {say && (
-          <motion.div
+          <m.div
             key={say}
             initial={{ opacity: 0, scale: 0.6, x: -6 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -170,7 +173,7 @@ export default function Monkey() {
             className="absolute top-12 left-14 w-max max-w-52 origin-left rounded-xl rounded-tl-sm border border-border bg-card px-3 py-1.5 text-xs shadow-lg"
           >
             {say}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

@@ -1,8 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { ArrowUpRight, GitMerge, GitPullRequest, RefreshCw } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { featuredPrIds } from "../data/featured-prs";
 import { profile } from "../data/resume";
 import { cn } from "../lib/utils";
@@ -74,8 +74,22 @@ export default function OpenSource() {
     }
   }, []);
 
+  // Don't compete with the hero for bandwidth: fetch once the section is ~1 screen away.
+  const sentinel = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    load();
+    const el = sentinel.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          load();
+        }
+      },
+      { rootMargin: "900px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, [load]);
 
   const orgs = useMemo(() => {
@@ -116,6 +130,7 @@ export default function OpenSource() {
       title="Merged upstream"
       description="Pulled live from the GitHub API. Filter by organization or status."
     >
+      <div ref={sentinel} aria-hidden />
       <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
         {/* summary + orgs */}
         <Reveal className="space-y-4">
@@ -232,7 +247,7 @@ export default function OpenSource() {
                   list.map((pr) => {
                     const s = statusOf(pr);
                     return (
-                      <motion.a
+                      <m.a
                         layout
                         key={pr.id}
                         initial={{ opacity: 0 }}
@@ -261,7 +276,7 @@ export default function OpenSource() {
                           </div>
                         </div>
                         <ArrowUpRight className="size-4 shrink-0 text-muted opacity-0 transition-opacity group-hover:opacity-100" />
-                      </motion.a>
+                      </m.a>
                     );
                   })}
               </AnimatePresence>

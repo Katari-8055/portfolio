@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import type { FlowNode } from "../data/resume";
 import { cn } from "../lib/utils";
@@ -45,7 +45,7 @@ export default function ArchitectureFlow({ nodes }: { nodes: FlowNode[] }) {
             <li key={n.label} className="relative flex gap-4">
               {/* rail */}
               <div className="flex flex-col items-center">
-                <motion.span
+                <m.span
                   animate={{ scale: isActive ? 1.15 : 1 }}
                   className={cn(
                     "grid size-7 shrink-0 place-items-center rounded-lg border font-mono text-[10px] transition-colors duration-300",
@@ -57,7 +57,7 @@ export default function ArchitectureFlow({ nodes }: { nodes: FlowNode[] }) {
                   )}
                 >
                   {String(i + 1).padStart(2, "0")}
-                </motion.span>
+                </m.span>
                 {i < nodes.length - 1 && (
                   <span aria-hidden className="relative my-1 w-px flex-1 overflow-hidden bg-border">
                     <span
