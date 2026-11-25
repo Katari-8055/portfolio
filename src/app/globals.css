@@ -1,18 +1,130 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
-html {
-  scroll-behavior: smooth;
+/* ---------- Design tokens ---------- */
+:root {
+  --bg: oklch(0.155 0.006 150);
+  --fg: oklch(0.95 0.006 130);
+  --muted: oklch(0.68 0.012 140);
+  --subtle: oklch(0.2 0.008 150);
+  --card: oklch(0.185 0.007 150);
+  --border: oklch(0.28 0.01 150);
+  /* softer, less neon green */
+  --accent: oklch(0.82 0.15 140);
+  --accent-soft: oklch(0.82 0.15 140 / 0.1);
+  --accent-glow: oklch(0.82 0.15 140 / 0.35);
+  --accent-contrast: oklch(0.18 0.03 140);
+  --grid: oklch(0.95 0.006 130 / 0.05);
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-primary: var(--color-neutral-900);
-  --color-secondary: var(--color-neutral-700);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-contrast: var(--accent-contrast);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-.dark {
-  --color-primary: var(--color-neutral-200);
-  --color-secondary: var(--color-neutral-400);
+/* ---------- Base ---------- */
+html {
+  position: relative; /* lets framer-motion measure scroll-linked targets */
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+@layer base {
+  *:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+/* Dot-grid backdrop */
+.bg-grid {
+  background-image: radial-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Cursor-following spotlight on cards (vars set from JS) */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    var(--accent-soft),
+    transparent 45%
+  );
+  z-index: -1;
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* Packets travelling along architecture-diagram connectors */
+@keyframes packet-x {
+  from { left: -6px; }
+  to { left: 100%; }
+}
+@keyframes packet-y {
+  from { top: -6px; }
+  to { top: 100%; }
+}
+.packet-x { animation: packet-x 1.4s linear infinite; }
+.packet-y { animation: packet-y 1.4s linear infinite; }
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+.caret { animation: blink 1s step-end infinite; }
+
+@keyframes ping-soft {
+  75%, 100% { transform: scale(2.2); opacity: 0; }
+}
+.ping-soft { animation: ping-soft 1.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .packet-x, .packet-y, .caret, .ping-soft { animation: none; }
+}
+
+/* Footer name reveal radius — registered so it can transition smoothly */
+@property --fr {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+.name-reveal {
+  transition: --fr 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }

@@ -1,31 +1,37 @@
 import type { Metadata } from "next";
-import { Inconsolata } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import ScrollProgress from "../components/ScrollProgress";
+import CommandPalette from "../components/CommandPalette";
+import Providers from "../components/Providers";
+import WebBackground from "../components/WebBackground";
+import { profile } from "../data/resume";
 
-
-const inconsolata = Inconsolata({
-  subsets: ["latin"],
-  weight: ["400", "700", "900"]
-});
+const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 export const metadata: Metadata = {
-  title: "Rahul Bind",
-  description: "Rahul Bind's Portfolio Website",
+  title: `${profile.name} — ${profile.role}`,
+  description: profile.summary,
+  openGraph: {
+    title: `${profile.name} — ${profile.role}`,
+    description: profile.headline,
+    type: "website",
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inconsolata.className} antialiased`}
-      >
-        <Navbar />
-        {children}
+    <html lang="en" className="dark">
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+        <Providers>
+          <WebBackground />
+          <ScrollProgress />
+          <Navbar />
+          <CommandPalette />
+          {children}
+        </Providers>
       </body>
     </html>
   );

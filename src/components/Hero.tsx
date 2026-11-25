@@ -1,58 +1,200 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import { ArrowDown, Check, Copy, FileText } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { profile } from "../data/resume";
+import { scrollToId } from "../lib/theme";
+import Terminal from "./Terminal";
+import { Magnetic } from "./ui";
 
-const Hero = () => {
-    const [displayText, setDisplayText] = useState("");
-    const fullText = "RAHUL BIND";
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [loopNum, setLoopNum] = useState(0);
-    const [typingSpeed, setTypingSpeed] = useState(150);
-
-    useEffect(() => {
-        const handleType = () => {
-            const currentText = fullText;
-            setDisplayText(
-                isDeleting
-                    ? currentText.substring(0, displayText.length - 1)
-                    : currentText.substring(0, displayText.length + 1)
-            );
-
-            setTypingSpeed(isDeleting ? 100 : 150);
-
-            if (!isDeleting && displayText === currentText) {
-                setTimeout(() => setIsDeleting(true), 1500);
-            } else if (isDeleting && displayText === "") {
-                setIsDeleting(false);
-                setLoopNum(loopNum + 1);
-            }
-        };
-
-        const timer = setTimeout(handleType, typingSpeed);
-        return () => clearTimeout(timer);
-    }, [displayText, isDeleting, typingSpeed]);
-
-    return (
-        <div className="relative flex w-full items-center justify-center bg-white dark:bg-black h-screen overflow-hidden">
-            {/* Hexagon Grid Background */}
-            <div className="absolute inset-0 z-0 opacity-20 dark:opacity-30" 
-                 style={{ 
-                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='90' viewBox='0 0 104 90'%3E%3Cpath d='M26 0 L78 0 L104 45 L78 90 L26 90 L0 45 Z' fill='none' stroke='%23888' stroke-width='1.5'/%3E%3C/svg%3E")`,
-                     backgroundSize: '104px 90px'
-                 }} 
-            />
-            
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white/50 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black/50"></div>
-            
-            <div className="relative flex flex-col items-center justify-center gap-5 z-20 bg-gradient-to-b from-primary to-gray-500 bg-clip-text py-8 font-bold text-transparent text-center px-4">
-                <p className="text-2xl sm:text-7xl">Hello, I'm</p> 
-                <p className="text-4xl sm:text-9xl min-h-[1.2em]">
-                    {displayText}
-                    <span className="border-r-4 border-primary animate-pulse ml-1">&nbsp;</span>
-                </p>
-            </div>
-        </div>
-    );
+const fadeUp = {
+  hidden: { opacity: 0, y: 18, filter: "blur(6px)" },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { delay: 0.08 * i, duration: 0.6, ease: "easeOut" as const },
+  }),
 };
 
-export default Hero;
+function RotatingWord() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((n) => (n + 1) % profile.rotating.length), 2400);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <span className="relative inline-grid align-bottom">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={profile.rotating[i]}
+          initial={{ y: "70%", opacity: 0, filter: "blur(6px)" }}
+          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: "-70%", opacity: 0, filter: "blur(6px)" }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="text-accent"
+        >
+          {profile.rotating[i]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+export default function Hero() {
+  const [copied, setCopied] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const termY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      window.location.href = `mailto:${profile.email}`;
+    }
+  };
+
+  return (
+    <section ref={ref} id="top" className="relative flex min-h-[100svh] items-center pt-28 pb-20">
+      <div
+        aria-hidden
+        className="absolute top-1/4 left-1/2 -z-10 size-[40rem] -translate-x-1/2 rounded-full bg-accent/[0.05] blur-[140px]"
+      />
+
+      <motion.div
+        style={{ opacity: fade, scale }}
+        className="mx-auto grid w-full max-w-6xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:gap-14"
+      >
+        <motion.div style={{ y: textY }}>
+          <motion.div
+            custom={0}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted backdrop-blur"
+          >
+            <span className="relative flex size-2">
+              <span className="ping-soft absolute inline-flex size-full rounded-full bg-accent" />
+              <span className="relative inline-flex size-2 rounded-full bg-accent" />
+            </span>
+            {profile.status}
+          </motion.div>
+
+          <h1 className="text-5xl font-semibold tracking-tighter sm:text-6xl lg:text-[5.5rem] lg:leading-[0.95]">
+            {profile.name.split(" ").map((word, wi, words) => (
+              <span key={wi} className="inline-block whitespace-nowrap">
+                {word.split("").map((ch, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 40, rotateX: -80 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    transition={{ delay: 0.15 + (wi * 6 + i) * 0.04, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    className="inline-block origin-bottom transition-colors duration-200 hover:text-accent"
+                  >
+                    {ch}
+                  </motion.span>
+                ))}
+                {wi < words.length - 1 && " "}
+              </span>
+            ))}
+          </h1>
+
+          <motion.p
+            custom={3}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="mt-6 text-xl text-fg/90 sm:text-2xl"
+          >
+            Backend engineer building <RotatingWord />
+          </motion.p>
+
+          <motion.p
+            custom={4}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="mt-5 max-w-xl text-pretty text-muted"
+          >
+            {profile.summary}
+          </motion.p>
+
+          <motion.div
+            custom={5}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="mt-8 flex flex-wrap items-center gap-3"
+          >
+            <Magnetic>
+              <button
+                type="button"
+                onClick={() => scrollToId("projects")}
+                className="group inline-flex h-11 items-center gap-2 rounded-full bg-fg px-5 text-sm font-medium text-bg shadow-lg shadow-black/20"
+              >
+                See my work
+                <ArrowDown className="size-4 transition-transform group-hover:translate-y-0.5" />
+              </button>
+            </Magnetic>
+            <Magnetic>
+              <a
+                href={profile.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-11 items-center gap-2 rounded-full border border-border bg-card/60 px-5 text-sm font-medium backdrop-blur transition-colors hover:border-accent/50"
+              >
+                <FileText className="size-4" /> Resume
+              </a>
+            </Magnetic>
+            <button
+              type="button"
+              onClick={copyEmail}
+              className="inline-flex h-11 items-center gap-2 rounded-full px-3 font-mono text-sm text-muted transition-colors hover:text-fg"
+              aria-label="Copy email address"
+            >
+              {copied ? <Check className="size-4 text-accent" /> : <Copy className="size-4" />}
+              {copied ? "copied!" : profile.email}
+            </button>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          style={{ y: termY }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
+        >
+          <Terminal />
+        </motion.div>
+      </motion.div>
+
+      {/* scroll cue */}
+      <motion.button
+        type="button"
+        onClick={() => scrollToId("experience")}
+        style={{ opacity: fade }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-[10px] tracking-widest text-muted uppercase sm:flex"
+        aria-label="Scroll to content"
+      >
+        scroll
+        <span className="flex h-9 w-5 justify-center rounded-full border border-border pt-1.5">
+          <motion.span
+            className="size-1 rounded-full bg-accent"
+            animate={{ y: [0, 12, 0], opacity: [1, 0.2, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </span>
+      </motion.button>
+    </section>
+  );
+}
